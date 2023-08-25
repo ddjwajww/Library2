@@ -1,0 +1,17 @@
+C:\Users\yeg46\source\repos\LibraryManagement\LM.DataAccess\bin\Debug\net6.0\LM.DataAccess.deps.json
+C:\Users\yeg46\source\repos\LibraryManagement\LM.DataAccess\bin\Debug\net6.0\LM.DataAccess.dll
+C:\Users\yeg46\source\repos\LibraryManagement\LM.DataAccess\bin\Debug\net6.0\LM.DataAccess.pdb
+C:\Users\yeg46\source\repos\LibraryManagement\LM.DataAccess\bin\Debug\net6.0\Infrastructure.dll
+C:\Users\yeg46\source\repos\LibraryManagement\LM.DataAccess\bin\Debug\net6.0\LM.Model.dll
+C:\Users\yeg46\source\repos\LibraryManagement\LM.DataAccess\bin\Debug\net6.0\Infrastructure.pdb
+C:\Users\yeg46\source\repos\LibraryManagement\LM.DataAccess\bin\Debug\net6.0\LM.Model.pdb
+C:\Users\yeg46\source\repos\LibraryManagement\LM.DataAccess\obj\Debug\net6.0\LM.DataAccess.csproj.AssemblyReference.cache
+C:\Users\yeg46\source\repos\LibraryManagement\LM.DataAccess\obj\Debug\net6.0\LM.DataAccess.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\yeg46\source\repos\LibraryManagement\LM.DataAccess\obj\Debug\net6.0\LM.DataAccess.AssemblyInfoInputs.cache
+C:\Users\yeg46\source\repos\LibraryManagement\LM.DataAccess\obj\Debug\net6.0\LM.DataAccess.AssemblyInfo.cs
+C:\Users\yeg46\source\repos\LibraryManagement\LM.DataAccess\obj\Debug\net6.0\LM.DataAccess.csproj.CoreCompileInputs.cache
+C:\Users\yeg46\source\repos\LibraryManagement\LM.DataAccess\obj\Debug\net6.0\LM.DataAccess.csproj.CopyComplete
+C:\Users\yeg46\source\repos\LibraryManagement\LM.DataAccess\obj\Debug\net6.0\LM.DataAccess.dll
+C:\Users\yeg46\source\repos\LibraryManagement\LM.DataAccess\obj\Debug\net6.0\refint\LM.DataAccess.dll
+C:\Users\yeg46\source\repos\LibraryManagement\LM.DataAccess\obj\Debug\net6.0\LM.DataAccess.pdb
+C:\Users\yeg46\source\repos\LibraryManagement\LM.DataAccess\obj\Debug\net6.0\ref\LM.DataAccess.dll

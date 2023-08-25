@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "UjGo1Agz2CPwneZkAJw2i2t5rnvoYEEKEZCBFer0ZEQ=",
+  "Source": "LM.WebAPI",
+  "BasePath": "_content/LM.WebAPI",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

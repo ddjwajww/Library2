@@ -1,0 +1,15 @@
+C:\Users\yeg46\source\repos\LibraryManagement\LM.Model\bin\Debug\net6.0\LM.Model.deps.json
+C:\Users\yeg46\source\repos\LibraryManagement\LM.Model\bin\Debug\net6.0\LM.Model.dll
+C:\Users\yeg46\source\repos\LibraryManagement\LM.Model\bin\Debug\net6.0\LM.Model.pdb
+C:\Users\yeg46\source\repos\LibraryManagement\LM.Model\bin\Debug\net6.0\Infrastructure.dll
+C:\Users\yeg46\source\repos\LibraryManagement\LM.Model\bin\Debug\net6.0\Infrastructure.pdb
+C:\Users\yeg46\source\repos\LibraryManagement\LM.Model\obj\Debug\net6.0\LM.Model.csproj.AssemblyReference.cache
+C:\Users\yeg46\source\repos\LibraryManagement\LM.Model\obj\Debug\net6.0\LM.Model.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\yeg46\source\repos\LibraryManagement\LM.Model\obj\Debug\net6.0\LM.Model.AssemblyInfoInputs.cache
+C:\Users\yeg46\source\repos\LibraryManagement\LM.Model\obj\Debug\net6.0\LM.Model.AssemblyInfo.cs
+C:\Users\yeg46\source\repos\LibraryManagement\LM.Model\obj\Debug\net6.0\LM.Model.csproj.CoreCompileInputs.cache
+C:\Users\yeg46\source\repos\LibraryManagement\LM.Model\obj\Debug\net6.0\LM.Model.csproj.CopyComplete
+C:\Users\yeg46\source\repos\LibraryManagement\LM.Model\obj\Debug\net6.0\LM.Model.dll
+C:\Users\yeg46\source\repos\LibraryManagement\LM.Model\obj\Debug\net6.0\refint\LM.Model.dll
+C:\Users\yeg46\source\repos\LibraryManagement\LM.Model\obj\Debug\net6.0\LM.Model.pdb
+C:\Users\yeg46\source\repos\LibraryManagement\LM.Model\obj\Debug\net6.0\ref\LM.Model.dll

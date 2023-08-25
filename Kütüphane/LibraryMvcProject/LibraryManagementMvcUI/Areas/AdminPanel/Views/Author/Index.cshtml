@@ -1,0 +1,352 @@
+﻿@{
+    Layout = "~/Areas/AdminPanel/Views/Shared/_Layout.cshtml";
+}
+@using LibraryManagementMvcUI.Areas.AdminPanel.Models.ApiTypes
+@model List<AuthorItem>
+
+@section customStyles{
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="~/adminPanel/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/adminPanel/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/adminPanel/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/adminPanel/plugins/sweetalert2/sweetalert2.css">
+
+}
+
+@section customScripts{
+    <script src="~/adminPanel/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/adminPanel/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/adminPanel/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/adminPanel/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="~/adminPanel/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/adminPanel/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/adminPanel/plugins/jszip/jszip.min.js"></script>
+    <script src="~/adminPanel/plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="~/adminPanel/plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="~/adminPanel/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/adminPanel/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="~/adminPanel/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+    <script src="~/adminPanel/plugins/sweetalert2/sweetalert2.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#example1").DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "buttons": ["excel", "pdf"]
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+
+            $("#btnSave").click(function () {
+                var formData = new FormData();
+
+                var file = $("#fuAuthorImage").get(0).files[0];
+
+                formData.append("authorName", $("#txtAuthorName").val());
+                formData.append("birthDate", $("#txtBirthDate").val());
+                formData.append("authorImage", file);
+
+
+                $.ajax({
+                    url: "/AdminPanel/Author/Save",
+                    method: "post",
+                    datatype: "json",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        if (response.isSuccess) {
+                            alert("İşlem Başarılı :" + response.message);
+                        }
+                        else {
+                            alert("İşlem Başarısız :" + response.message);
+                        }
+                    }
+
+                });
+            });
+
+            $(document).on("click", ".btnDelete", function () {
+
+                var authorId = $(this).attr("authorid");
+                var tr = $(this).parent().parent();
+
+
+                Swal.fire({
+                    title: 'Silmek istedğinize emin misiniz?',
+                    text: "Bu işlem geri alınamaz!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Evet, SİL!',
+                    cancelButtonText: 'Vazgeç!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+
+                        $.ajax({
+                            url: "/AdminPanel/Author/Delete/" + authorId,
+                            method: "post",
+                            datatype: "json",
+                            success: function (response) {
+                                if (response.isSuccess) {
+
+                                    Swal.fire({
+                                        title: 'İşlem Başarılı!',
+                                        text: response.message,
+                                        icon: 'success',
+                                        showCancelButtonText: 'Tamam'
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            // window.location.reload(); //bu komut sayfayı yenilemek için kullanılır
+
+                                            $(tr).fadeOut(1500, function () {
+                                                $(tr).remove();
+                                            });
+                                        }
+                                    })
+                                }
+                                else {
+
+                                    Swal.fire(
+                                        'İşlem Başarısız!',
+                                        response.message,
+                                        'error'
+                                    )
+                                }
+                            }
+                        });
+                    }
+                    else {
+                        Swal.fire(
+                            'İşlem İptal Edildi!',
+                            'Silme işlemi isteğiniz üzerine iptal edilmiştir',
+                            'warning'
+                        )
+                    }
+                })
+
+            });
+
+
+            $(document).on("click", ".btnEdit", function () {
+
+                var authorId = $(this).attr("authorid");
+
+                $.ajax({
+                    url: "/AdminPanel/Author/GetAuthor/" + authorId,
+                    method: "post",
+                    datatype: "json",
+                    success: function (response) {
+                        $("#txtAuthorNameEdit").val(response.authorName);
+                        $("#txtBirthDateEdit").val(response.birthDate);
+                        $("#imgAuthorPictureEdit").attr("src", response.picturePath);
+                        $("#hfAuthorId").val(response.authorId);
+
+                    }
+                });
+
+                $("#divEditAuthor").modal("show");
+
+                $("#btnEdit").click(function () {
+                    var formData = new FormData();
+                    var authorId = $("#hfAuthorId").val();
+                    var file = $("#fuAuthorImageEdit").get(0).files[0];
+
+                    formData.append("authorId", authorId);
+                    formData.append("authorName", $("#txtAuthorNameEdit").val());
+                    formData.append("birthDate", $("#txtBirthDateEdit").val());
+                    formData.append("authorImage", file);
+
+                    $.ajax({
+                        url: "/AdminPanel/Author/Update",
+                        method: "post",
+                        dataType: "json",
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        success: function (response) {
+                            if (response.isSuccess) {
+                                $("#divEditAuthor").modal("hide");
+
+                                Swal.fire(
+                                    'İşlem Başarılı!',
+                                    response.message,
+                                    'success'
+                                );
+
+                            } else {
+                                Swal.fire(
+                                    'İşlem Başarısız!',
+                                    response.message,
+                                    'error'
+                                );
+                            }
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+}
+
+<div class="row">
+    <div class="col-12">
+        <!-- Custom Tabs -->
+        <div class="card">
+            <div class="card-header d-flex p-0">
+                <h3 class="card-title p-3"><b>Yazarlar Yönetim</b></h3>
+                <ul class="nav nav-pills ml-auto p-2">
+                    <li class="nav-item"><a class="nav-link active" href="#tab_1" data-toggle="tab">Liste</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#tab_2" data-toggle="tab">Yeni</a></li>
+
+                </ul>
+            </div><!-- /.card-header -->
+            <div class="card-body">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab_1">
+                        <div class="card-body">
+                            <table id="example1" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Yazar Adı</th>
+                                        <th>Doğum Tarihi</th>
+                                        <th>Düzenle</th>
+                                        <th>Sil</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <img src="@item.PicturePath" style="width:150px;" />
+                                            </td>
+                                            <td>@item.AuthorName</td>
+                                            <td>@item.BirthDate.Value.ToShortDateString()</td>
+                                            <td>
+                                                <button type="button" class="btn btn-warning btnEdit" authorid="@item.AuthorId">
+                                                    Düzenle
+                                                </button>
+                                            </td>
+                                            <td><button class="btn btn-danger btnDelete" authorid="@item.AuthorId">Sil</button></td>
+                                        </tr>
+                                    }
+
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Yazar Adı</th>
+                                        <th>Doğum Tarihi</th>
+                                        <th>Düzenle</th>
+                                        <th>Sil</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- /.tab-pane -->
+                    <div class="tab-pane" id="tab_2">
+                        <div class="card card-primary">
+                            <div class="card-header">
+                                <h3 class="card-title">Yeni Yazar Kayıt Formu</h3>
+                            </div>
+                            <!-- /.card-header -->
+                            <!-- form start -->
+                            <form>
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label>Yazar Adı</label>
+                                        <input type="text" class="form-control" id="txtAuthorName" placeholder="Yazar Adı">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Doğrum Tarihi</label>
+                                        <input type="date" class="form-control" id="txtBirthDate"></input>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Resim</label>
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" id="fuAuthorImage">
+                                                <label class="custom-file-label">Resim Seçiniz</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /.card-body -->
+
+                                <div class="card-footer">
+                                    <button id="btnSave" type="button" class="btn btn-primary">Kaydet</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- /.tab-pane -->
+                </div>
+                <!-- /.tab-content -->
+            </div><!-- /.card-body -->
+        </div>
+        <!-- ./card -->
+    </div>
+    <!-- /.col -->
+</div>
+
+
+<div class="modal fade" data-backdrop="static" id="divEditAuthor" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="tab-pane" id="tab_2">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Yazar Düzenleme Formu</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <!-- form start -->
+                        <form>
+                            <input type="hidden" id="hfAuthorId" />
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label>Yazar Adı</label>
+                                    <input type="text" class="form-control" id="txtAuthorNameEdit"  placeholder="Yazar Adı">
+                                </div>
+                                <div class="form-group">
+                                    <label>Yazar Doğum Tarihi</label>
+                                    <input type="date" class="form-control" id="txtBirthDateEdit" placeholder="Doğum Tarihi"></input>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputFile">Resim</label>
+                                    <div class="input-group">
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" id="fuAuthorImageEdit">
+                                            <label class="custom-file-label">Resim Seçiniz</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Yazar Resmi</label>
+                                    <img id="imgAuthorPictureEdit" style="width:150px;" />
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+
+                            <div class="card-footer">
+                                <button id="btnEdit" type="button" class="btn btn-primary">Kaydet</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

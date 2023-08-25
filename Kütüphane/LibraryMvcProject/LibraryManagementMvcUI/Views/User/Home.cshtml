@@ -1,0 +1,145 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container mt-5 ">
+
+    <section class="shop_section layout_padding">
+        <div class="container">
+            <div class="heading_container heading_center">
+                <h2>
+                    Kiraladığım Kitaplar
+                </h2>
+            </div>
+            <div class="row">
+
+                @{
+                    foreach (var item in Model.BorrowedBookList)
+                    {
+                        var isMatch = item.UserId == Model.ActiveUserId;
+
+
+                        if (isMatch)
+                        {
+
+                            @foreach (var book in Model.BooktList)
+                            {
+
+                                isMatch = item.BookId == book.BookId;
+
+                                if (isMatch)
+                                {
+
+                                    <div class="col-sm-6 col-md-4 col-lg-3">
+                                        <div class="box">
+                                            <div class="img-box">
+                                                <img src="@book.PicturePath" alt="">
+                                            </div>
+                                            <div class="detail-box">
+                                                <h6>
+                                                    @book.Title |
+                                                </h6>
+                                                <h6>
+                                                Son İade :
+                                                    @item.ReturnDate.ToShortDateString()
+                                                </h6>
+                                            </div>
+                                            <div class="new">
+                                                <a href="">
+                                                    <span>
+                                                        İade
+                                                    </span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }                
+
+                            }
+
+                        }       
+        
+
+                    }
+                  }
+
+            </div>
+
+
+
+            <div class="heading_container heading_center mt-5">
+                <h2>
+                    Rezervasyonlarım
+                </h2>
+            </div>
+            <div class="row">
+
+                @{
+                    foreach (var item in Model.ReservationList)
+                    {
+                        var isMatch = item.UserId == Model.ActiveUserId;
+
+
+                        if (isMatch)
+                        {
+
+                            @foreach (var book in Model.BooktList)
+                            {
+
+                                isMatch = item.BookId == book.BookId;
+
+                                if (isMatch)
+                                {
+
+                                    <div class="col-sm-6 col-md-4 col-lg-3">
+                                        <div class="box">
+                                            <div class="img-box">
+                                                <img src="@book.PicturePath" alt="">
+                                            </div>
+                                            <div class="detail-box">
+                                                <h6>
+                                                    @book.Title |
+                                                </h6>
+                                                <h6>
+                                                   Bitiş : @item.ExpirationDate.ToShortDateString()
+                                                </h6>
+                                            </div>
+                                            <div class="new">
+                                                <a href="">
+                                                    <span>
+                                                        İptal
+                                                    </span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
+                            }
+
+                        }
+                    }
+                }
+
+            </div>
+
+
+        </div>
+    </section>
+
+</div>
+
+
+
+        
+
+
+
+
+
+
+
+
+
+

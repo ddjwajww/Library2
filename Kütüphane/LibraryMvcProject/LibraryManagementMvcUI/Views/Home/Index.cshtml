@@ -1,0 +1,191 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<body>
+    <div class="hero_area">
+        
+
+        <section class="slider_section">
+            <div class="slider_container">
+                <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-md-7">
+                                        <div class="detail-box">
+                                            <h1>
+                                                Kütüphanemize <br>
+                                                Hoşgeldiniz
+                                            </h1>
+                                            <p>
+                                                Kütüphane Uygulamamız, okuma tutkusunu paylaşan insanlar için özel olarak tasarlanmış bir platformdur. Amacımız, kitapların büyülü dünyasına giren herkesi desteklemek ve ilham vermek. Kütüphane koleksiyonumuz, farklı türlerde binlerce kitap içerir ve her yaş ve ilgi alanına hitap eder.
+                                            </p>
+                                            <a href="#divSection">
+                                                İletişim
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5 ">
+                                        <div class="img-box">
+                                            <img src="/css/images/Removal-790.png" alt="" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-md-7">
+                                        <div class="detail-box">
+                                            <h1>
+                                                Kütüphanemize <br>
+                                                Hoşgeldiniz
+                                            </h1>
+                                            <p>
+                                                Kütüphane Uygulamamız, okuma tutkusunu paylaşan insanlar için özel olarak tasarlanmış bir platformdur. Amacımız, kitapların büyülü dünyasına giren herkesi desteklemek ve ilham vermek. Kütüphane koleksiyonumuz, farklı türlerde binlerce kitap içerir ve her yaş ve ilgi alanına hitap eder.
+                                            </p>
+                                            <a href="#divSection">
+                                                İletişim
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5 ">
+                                        <div class="img-box">
+                                            <img src="/css/images/Removal-790.png" alt="" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="carousel_btn-box">
+                        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <img src="/css/images/line.png" alt="" />
+                        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                            <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- end slider section -->
+    </div>
+    <!-- end hero area -->
+    <!-- shop section -->
+
+    <section class="shop_section layout_padding">
+        <div class="container">
+            <div class="heading_container heading_center">
+                <h2>
+                    En çok kiralanan kitaplar
+                </h2>
+            </div>
+            <div class="row">
+
+                @foreach (var item in Model.BooktList)
+                {
+                    if (item.AvailableCopies >= 50)
+                    {
+                        <div class="col-sm-6 col-md-4 col-lg-3">
+                            <div class="box">
+                                <div class="img-box">
+                                    <img src="@item.PicturePath" alt="">
+                                </div>
+                                <div class="detail-box">
+                                    <h6>
+                                        @item.Title
+                                    </h6>
+                                    <h6>
+                                        @item.CategoryName
+                                    </h6>
+                                </div>
+                                <div class="new">
+                                    <a href="">
+                                        <span>
+                                            Kirala
+                                        </span>
+                                    </a>                                    
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    
+                }            
+
+
+                
+            </div>
+            <div class="btn-box">
+                <a href="/book/index">
+                    Bütün Kitapları Gör
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- end shop section -->
+    <!-- contact section -->
+
+    <section class="contact_section" id="divSection">
+        <div class="container px-0">
+            <div class="heading_container ">
+                <h2 class="">
+                    İletişim
+                </h2>
+            </div>
+        </div>
+        <div class="container container-bg">
+            <div class="row">
+                <div class="col-lg-7 col-md-6 px-0">
+                    <div class="map_container">
+                        <div class="map-responsive">
+                            <iframe src="https://www.google.com/maps/embed/v1/place?key=AIzaSyA0s1a7phLN0iaD6-UE7m4qP-z21pH0eSc&q=Eiffel+Tower+Paris+France" width="600" height="300" frameborder="0" style="border:0; width: 100%; height:100%" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-5 px-0">
+                    <form action="#">
+                        <div class="mb-5">
+                            <strong>Adres :</strong>   <br>
+                            Champ de Mars, 5 Av. Anatole France, 75007 Paris, Fransa
+                        </div>
+                        <div class="mb-5">
+                            <strong>Email :</strong>   <br>
+                            yeg@hotmail.com
+                        </div>
+                        <div class="mb-5">
+                            <strong>Telefon :</strong>   <br>
+                            055555555555
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- end contact section -->
+    <!-- client section -->
+    
+
+    <!-- end info section -->
+
+
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/js/bootstrap.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script src="/js/custom.js"></script>
+    
+</body>
+
+</html>

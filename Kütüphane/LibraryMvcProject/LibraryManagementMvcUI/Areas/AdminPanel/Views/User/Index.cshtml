@@ -1,0 +1,360 @@
+﻿@{
+    Layout = "~/Areas/AdminPanel/Views/Shared/_Layout.cshtml";
+}
+@using LibraryManagementMvcUI.Areas.AdminPanel.Models.ApiTypes
+@model List<UserItem>
+
+@section customStyles{
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="~/adminPanel/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/adminPanel/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/adminPanel/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/adminPanel/plugins/sweetalert2/sweetalert2.css">
+
+}
+
+@section customScripts{
+    <script src="~/adminPanel/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/adminPanel/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/adminPanel/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/adminPanel/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="~/adminPanel/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/adminPanel/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/adminPanel/plugins/jszip/jszip.min.js"></script>
+    <script src="~/adminPanel/plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="~/adminPanel/plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="~/adminPanel/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/adminPanel/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="~/adminPanel/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+    <script src="~/adminPanel/plugins/sweetalert2/sweetalert2.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#example1").DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "buttons": ["excel", "pdf"]
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+
+            $("#btnSave").click(function () {
+                var formData = new FormData();
+
+
+                formData.append("fullName", $("#txtFullName").val());
+                formData.append("userName", $("#txtUserName").val());
+                formData.append("password", $("#txtPassword").val());
+                formData.append("email", $("#txtEmail").val());
+                
+
+
+                $.ajax({
+                    url: "/AdminPanel/User/Save",
+                    method: "post",
+                    datatype: "json",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        if (response.isSuccess) {
+
+                            Swal.fire(
+                                'İşlem Başarılı!',
+                                response.message,
+                                'success'
+                            )
+                        }
+                        else {
+                            Swal.fire(
+                                'İşlem Başarısız!',
+                                response.message,
+                                'error'
+                            )
+                        }
+                    }
+
+                });
+            });
+
+            $(document).on("click", ".btnDelete", function () {
+
+                var userId = $(this).attr("userid");
+                var tr = $(this).parent().parent();
+
+
+                Swal.fire({
+                    title: 'Silmek istedğinize emin misiniz?',
+                    text: "Bu işlem geri alınamaz!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Evet, SİL!',
+                    cancelButtonText: 'Vazgeç!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+
+                        $.ajax({
+                            url: "/AdminPanel/User/Delete/" + userId,
+                            method: "post",
+                            datatype: "json",
+                            success: function (response) {
+                                if (response.isSuccess) {
+
+                                    Swal.fire({
+                                        title: 'İşlem Başarılı!',
+                                        text: response.message,
+                                        icon: 'success',
+                                        showCancelButtonText: 'Tamam'
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            // window.location.reload(); //bu komut sayfayı yenilemek için kullanılır
+
+                                            $(tr).fadeOut(1500, function () {
+                                                $(tr).remove();
+                                            });
+                                        }
+                                    })
+                                }
+                                else {
+
+                                    Swal.fire(
+                                        'İşlem Başarısız!',
+                                        response.message,
+                                        'error'
+                                    )
+                                }
+                            }
+                        });
+                    }
+                    else {
+                        Swal.fire(
+                            'İşlem İptal Edildi!',
+                            'Silme işlemi isteğiniz üzerine iptal edilmiştir',
+                            'warning'
+                        )
+                    }
+                })
+
+            });
+
+
+            $(document).on("click", ".btnEdit", function () {
+
+                var userId = $(this).attr("userid");
+
+                $.ajax({
+                    url: "/AdminPanel/User/GetUser/" + userId,
+                    method: "post",
+                    datatype: "json",
+                    success: function (response) {
+                        $("#txtFullNameEdit").val(response.fullName);
+                        $("#txtUserNameEdit").val(response.userName);
+                        $("#txtEmailEdit").val(response.email);
+                        $("#txtPasswordEdit").val(response.password);                        
+                        $("#hfUserId").val(response.userId);
+
+                    }
+                });
+
+                $("#divEditUser").modal("show");
+
+                $("#btnEdit").click(function () {
+                    var formData = new FormData();
+                    var userId = $("#hfUserId").val();
+
+
+                    formData.append("userId", userId);
+                    formData.append("fullName", $("#txtFullNameEdit").val());
+                    formData.append("userName", $("#txtUserNameEdit").val());
+                    formData.append("email", $("#txtEmailEdit").val());
+                    formData.append("password", $("#txtPasswordEdit").val());
+                    
+
+                    $.ajax({
+                        url: "/AdminPanel/User/Update",
+                        method: "post",
+                        dataType: "json",
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        success: function (response) {
+                            if (response.isSuccess) {
+                                $("#divEditUser").modal("hide");
+
+                                Swal.fire(
+                                    'İşlem Başarılı!',
+                                    response.message,
+                                    'success'
+                                );
+
+                            } else {
+                                Swal.fire(
+                                    'İşlem Başarısız!',
+                                    response.message,
+                                    'error'
+                                );
+                            }
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+}
+
+<div class="row">
+    <div class="col-12">
+        <!-- Custom Tabs -->
+        <div class="card">
+            <div class="card-header d-flex p-0">
+                <h3 class="card-title p-3">Kullanıcılar Yönetim</h3>
+                <ul class="nav nav-pills ml-auto p-2">
+                    <li class="nav-item"><a class="nav-link active" href="#tab_1" data-toggle="tab">Liste</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#tab_2" data-toggle="tab">Yeni</a></li>
+
+                </ul>
+            </div><!-- /.card-header -->
+            <div class="card-body">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab_1">
+                        <div class="card-body">
+                            <table id="example1" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>                                        
+                                        <th>Adı</th>
+                                        <th>Kullanıcı Adı</th>
+                                        <th>Email</th>
+                                        <th>Şifre</th>
+                                        <th>Düzenle</th>
+                                        <th>Sil</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+
+                                            <td>@item.FullName</td>
+                                            <td>@item.UserName</td>
+                                            <td>@item.Email</td>
+                                            <td>@item.Password</td>
+                                            <td>
+                                                <button type="button" class="btn btn-warning btnEdit" userid="@item.UserId">
+                                                    Düzenle
+                                                </button>
+                                            </td>
+                                            <td><button class="btn btn-danger btnDelete" userid="@item.UserId">Sil</button></td>
+                                        </tr>
+                                    }
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>Adı</th>
+                                        <th>Kullanıcı Adı</th>
+                                        <th>Email</th>
+                                        <th>Şifre</th>
+                                        <th>Düzenle</th>
+                                        <th>Sil</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- /.tab-pane -->
+                    <div class="tab-pane" id="tab_2">
+                        <div class="card card-primary">
+                            <div class="card-header">
+                                <h3 class="card-title">Yeni Kullanıcı Kayıt Formu</h3>
+                            </div>
+                            <!-- /.card-header -->
+                            <!-- form start -->
+                            <form>
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label>Adı</label>
+                                        <input type="text" class="form-control" id="txtFullName" placeholder="Adı">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Kullanıcı Adı</label>
+                                        <input type="text" class="form-control" id="txtUserName" placeholder="Kullanıcı Adı">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Email</label>
+                                        <input type="text" class="form-control" id="txtEmail" placeholder="Email">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Kullanıcı Şifre</label>
+                                        <input type="text" class="form-control" id="txtPassword" placeholder="Kullanıcı Şifre">
+                                    </div>
+                                </div>
+                                <!-- /.card-body -->
+
+                                <div class="card-footer">
+                                    <button id="btnSave" type="button" class="btn btn-primary">Kaydet</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- /.tab-pane -->
+                </div>
+                <!-- /.tab-content -->
+            </div><!-- /.card-body -->
+        </div>
+        <!-- ./card -->
+    </div>
+    <!-- /.col -->
+</div>
+
+
+<div class="modal fade" data-backdrop="static" id="divEditUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="tab-pane" id="tab_2">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Kullanıcı Düzenleme Formu</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <!-- form start -->
+                        <form>
+                            <input type="hidden" id="hfUserId" />
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label>Adı</label>
+                                    <input type="text" class="form-control" id="txtFullNameEdit" placeholder="Adı">
+                                </div>
+                                <div class="form-group">
+                                    <label>Kullanıcı Adı</label>
+                                    <input type="text" class="form-control" id="txtUserNameEdit" placeholder="Kullanıcı Adı">
+                                </div>
+                                <div class="form-group">
+                                    <label>Email</label>
+                                    <input type="text" class="form-control" id="txtEmailEdit" placeholder="Email">
+                                </div>
+                                <div class="form-group">
+                                    <label>Şifre</label>
+                                    <input type="text" class="form-control" id="txtPasswordEdit" placeholder="Şifre">
+                                </div>
+                                
+                                
+                            </div>
+                            <!-- /.card-body -->
+
+                            <div class="card-footer">
+                                <button id="btnEdit" type="button" class="btn btn-primary">Kaydet</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

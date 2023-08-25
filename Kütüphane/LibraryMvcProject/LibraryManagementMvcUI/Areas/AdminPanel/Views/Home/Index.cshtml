@@ -1,0 +1,74 @@
+﻿@{
+    Layout = "~/Areas/AdminPanel/Views/Shared/_Layout.cshtml";
+}
+
+@using LibraryManagementMvcUI.Areas.AdminPanel.Models.ViewModels;
+@model HomeIndexViewModel
+<style>
+    .mt-10 {
+        margin-top: 8rem !important;
+    }
+
+    .mb-10 {
+        margin-bottom: 8rem !important;
+    }
+    
+</style>
+
+<div class="container bg-light  p-5">
+
+   @* <div class="card text-bg-primary mb-3" style="max-width: 18rem;">
+        <div class="card-header">Header</div>
+        <div class="card-body">
+            <h5 class="card-title">Primary card title</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        </div>
+    </div>*@
+    <h2 class="text-center"><b>Yönetici Ana Sayfa Genel Bilgilendirme</b></h2>
+    <hr />
+    <div class="row mt-5">
+        <div class="col-md-6 mb-10  ">
+            <div class="d-flex justify-content-start align-items-start">
+                <div class="card text-bg-primary mb-3" style="max-width: 18rem;">
+                    <div class="card-header"><b>Toplam Kullanıcı Sayısı</b></div>
+                    <div class="card-body">
+                        <h1 class="text-center">@Model.UserList.Count Kullanıcı</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-10 ">
+            <div class="d-flex justify-content-end align-items-start ">
+                <div class="card text-bg-primary mb-3" style="max-width: 18rem;">
+                    <div class="card-header"><b>Toplam Kitap Sayısı</b></div>
+                    <div class="card-body">
+                        <h1 class="text-center">@Model.BooktList.Count Kitap</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 mt-10 ">
+            <div class="d-flex justify-content-start align-items-end ">
+                <div class="card text-bg-primary mb-3" style="max-width: 18rem;">
+                    <div class="card-header"><b>Toplam Yazar Sayısı</b></div>
+                    <div class="card-body">
+                        <h1 class="text-center">@Model.AuthorList.Count Yazar</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mt-10">
+            <div class="d-flex justify-content-end align-items-end ">
+                <div class="card text-bg-primary mb-3" style="max-width: 18rem;">
+                    <div class="card-header"><b>Toplam Kategori Sayısı</b></div>
+                    <div class="card-body">
+                        <h1 class="text-center">@Model.CategoryList.Count Kategori</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

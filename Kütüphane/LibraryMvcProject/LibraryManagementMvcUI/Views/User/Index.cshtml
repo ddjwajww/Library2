@@ -1,0 +1,230 @@
+﻿<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kütüphane</title>
+    <link rel="stylesheet" href="/css/HomeCssDoc.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/adminPanel/plugins/sweetalert2/sweetalert2.css">
+</head>
+<body>
+
+    <section class="h-100 gradient-form" style="background-color: #eee;">
+        <div class="container py-0 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-l-10">
+                    <div class="card rounded-3 text-black">
+                        <div class="row g-0">
+
+                            <div class="col-lg-6">
+                                <div class="card-body p-s-5 mx-md-4">
+
+                                    <div class="text-center">
+                                        <img src="/css/images/logo-removebg-preview.png"
+                                             style="width: 130px;">
+                                        <h4 class="mt-1 mb-4 pb-1">Kütüphane Uygulamamıza hoşgeldiniz</h4>
+                                    </div>
+
+                                    <form>
+                                       
+                                        <div class="form-outline mb-4">
+                                            <label class="form-label">Kullanıcı adı</label>
+                                            <input type="text" id="txtUserName" class="form-control"
+                                                   placeholder="Kullanıcı adı" />
+                                        </div>
+
+                                        <div class="form-outline mb-4">
+                                            <label class="form-label">Şifre</label>
+                                            <input type="password" id="txtPassword" class="form-control" placeholder="Şifre" />
+                                        </div>
+
+                                        <div class="text-center pt-1 mb-4 pb-1">
+                                            <button id="btnLogIn" class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="button">
+                                                Giriş
+                                            </button>
+                                            <div id="divMessages"></div>
+                                            <a class="text-muted" href="#">Şifremi Unuttum</a>
+                                        </div>
+
+                                        <div class="d-flex align-items-center justify-content-center pb-4">
+                                            <p class="mb-0 mr-3"> Hemen kaydol </p>
+                                            <button type="button" id="btnSaveUser" class="btn btn-outline-danger">Yeni Hesap Oluştur</button>
+                                        </div>
+                                        <hr />
+                                        <div class="text-center ">
+                                            <button id="goToAdminLoginPage" class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="button">
+                                                Admin Giriş
+                                            </button>
+                                        </div>
+                                    </form>                                  
+                                </div>
+                            </div>
+                            <div class="col-lg-6 d-flex align-items-center gradient-custom-2">
+                                <div class="text-white px-3 py-4 p-md-5 mx-md-4">
+                                    <h4 class="mb-4">Kitaplar uygarlığa yol gösteren ışıklardır.</h4>
+                                    <p class="small mb-0">
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+                                        exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                    </p>                                    
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="modal fade" data-backdrop="static" id="divAddUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body ">
+                    <div class="tab-pane " id="tab_2">
+                        <div class="card card-primary ">
+                            <div class="card-header ">
+                                <h3 class="d-flex align-items-center justify-content-center  ">Yeni Kullanıcı Formu</h3>
+                            </div>
+                            <!-- /.card-header -->
+                            <!-- form start -->
+                            <form>
+                                <div class="card-body ">
+                                    <div class="form-group">
+                                        <label>Adı</label>
+                                        <input type="text" class="form-control" id="txtFullNameSave" placeholder="Adı">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Kullanıcı Adı</label>
+                                        <input type="text" class="form-control" id="txtUserNameSave" placeholder="Kullanıcı Adı">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Şifre</label>
+                                        <input type="password" class="form-control" id="txtPasswordSave" placeholder="Şifre">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Email</label>
+                                        <input type="email" class="form-control" id="txtEmailSave" placeholder="Email">
+                                    </div>
+                                </div>
+
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <button id="btnEdit" type="button" class="btn btn-primary gradient-custom-2 col-6">Kaydet</button>
+
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <script src="~/adminPanel/plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="~/adminPanel/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/adminPanel/plugins/sweetalert2/sweetalert2.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            $("#btnLogIn").click(function () {
+
+                let formDataObject =
+                {
+                    UserName: $("#txtUserName").val(),
+                    Password: $("#txtPassword").val()
+                };
+
+
+                $.ajax({
+                    url: "/User/LogIn",
+                    method: "post",
+                    datatype: "json",
+                    data: { dto: formDataObject },
+                    success: function (response) {
+                        if (response.isSuccess) {                            
+
+                            window.location.href = "/Home/Index";
+                        }
+                        else {
+                            var errMessages = "<div class='alert alert-danger'>";
+
+                            for (var i = 0; i < response.messages.length; i++) {
+                                errMessages += response.messages[i] + "<br/>";
+                            }
+
+                            errMessages += "</div>";
+
+                            $("#divMessages").html(errMessages);
+
+                        }
+                    }
+                });
+            });
+
+            $("#btnSaveUser").click(function () {
+                
+                $("#divAddUser").modal("show");
+
+                $("#btnEdit").click(function () {
+                    var formData = new FormData();                   
+                    
+                    formData.append("fullName", $("#txtFullNameSave").val());
+                    formData.append("userName", $("#txtUserNameSave").val());
+                    formData.append("password", $("#txtPasswordSave").val());
+                    formData.append("email", $("#txtEmailSave").val());
+                    
+
+                    $.ajax({
+                        url: "/User/Save",
+                        method: "post",
+                        dataType: "json",
+                        data: formData,   
+                        contentType: false,
+                        processData: false,
+                        success: function (response) {
+                            if (response.isSuccess) {
+                                $("#divAddUser").modal("hide");
+
+                                Swal.fire(
+                                    'İşlem Başarılı!',
+                                    response.message,                                    
+                                    'success'
+                                );
+
+                            } 
+                            else 
+                            {
+                                Swal.fire(
+                                    'İşlem Başarısız!',
+                                    response.message,
+                                    'error'
+                                );
+                            }
+                        }
+                    });
+                });
+
+            });
+
+            document.getElementById("goToAdminLoginPage").addEventListener("click", function () {
+                window.location.href = "/adminpanel/Auth/Login";
+            });
+            
+
+        });
+    </script>
+
+    
+
+
+</body>
+</html>
